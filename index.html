@@ -10,6 +10,8 @@
     <h1>Bank Statement Savings Visualizer</h1>
     <p>Paste your bank statement CSV data below:</p>
     <textarea id="csv-input" rows="10" cols="50"></textarea>
+    <p>Enter a list of transaction descriptions to filter out (one per line):</p>
+    <textarea id="filter-list" rows="5" cols="50"></textarea>
     <button id="generate-chart">Generate Chart</button>
     <div id="chart-container" style="width: 80%; margin: auto;">
         <canvas id="savings-chart"></canvas>
