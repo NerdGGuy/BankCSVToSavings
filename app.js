@@ -28,9 +28,17 @@ function aggregateSavingsData(data) {
     return Array.from(aggregatedData.entries());
 }
 
+let chart;
+
 function generateSavingsChart(chartData) {
     const ctx = document.getElementById("savings-chart").getContext("2d");
-    const chart = new Chart(ctx, {
+    
+    // Destroy the previous chart if it exists
+    if (chart) {
+        chart.destroy();
+    }
+
+    chart = new Chart(ctx, {
         type: "bar",
         data: {
             labels: chartData.map(([monthYear]) => monthYear),
