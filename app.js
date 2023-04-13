@@ -11,7 +11,7 @@ function parseBankStatementCSV(csvString, filterList) {
     const data = rows.map(row => {
         const [date, amount, description] = row.split(",").filter((_, index) => index === 0 || index === 1 || index === 2);
         return { date: new Date(date.replace(/(\d{2})\/(\d{2})\/(\d{4})/, "$3-$2-$1")), amount: parseFloat(amount.replace(/["+]/g, '')), description: description.replace(/["+]/g, '') };
-    }).filter(({description}) => !filterList.includes(description.trim()));
+    }).filter(({description}) => !filterList.some(filter => description.trim().includes(filter.trim())));
 
     return data;
 }
