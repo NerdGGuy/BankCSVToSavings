@@ -8,8 +8,8 @@ document.getElementById("generate-chart").addEventListener("click", function () 
 function parseBankStatementCSV(csvString) {
     const rows = csvString.trim().split("\n");
     const data = rows.map(row => {
-        const [date, amount] = row.split(",").filter((_, index) => index === 0 || index === 1);
-        return { date: new Date(date.replace(/(\d{2})\/(\d{2})\/(\d{4})/, "$3-$2-$1")), amount: parseFloat(amount.replace(/["+]/g, '')) };
+        const [date, amount] = row.split(",");
+        return { date: new Date(date), amount: parseFloat(amount) };
     });
 
     return data;
