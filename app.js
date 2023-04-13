@@ -1,16 +1,17 @@
 document.getElementById("generate-chart").addEventListener("click", function () {
     const csvInput = document.getElementById("csv-input").value;
-    const savingsData = parseBankStatementCSV(csvInput);
+    const filterList = document.getElementById("filter-list").value.split("\n");
+    const savingsData = parseBankStatementCSV(csvInput, filterList);
     const chartData = aggregateSavingsData(savingsData);
     generateSavingsChart(chartData);
 });
 
-function parseBankStatementCSV(csvString) {
+function parseBankStatementCSV(csvString, filterList) {
     const rows = csvString.trim().split("\n");
     const data = rows.map(row => {
-        const [date, amount] = row.split(",");
-        return { date: new Date(date), amount: parseFloat(amount) };
-    });
+        const [date, amount, description] = row.split(",").filter((_, index) => index === 0 || index === 1 || index === 2);
+        return { date: new Date(date.replace(/(\d{2})\/(\d{2})\/(\d{4})/, "$3-$2-$1")), amount: parseFloat(amount.replace(/["+]/g, '')), description: description.replace(/["+]/g, '') };
+    }).filter(({description}) => !filterList.includes(description.trim()));
 
     return data;
 }
@@ -41,12 +42,3 @@ function generateSavingsChart(chartData) {
                 borderWidth: 1
             }]
         },
-        options: {
-            scales: {
-                y: {
-                    beginAtZero: true
-                }
-            }
-        }
-    });
-}
